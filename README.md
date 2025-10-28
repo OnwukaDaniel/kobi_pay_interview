@@ -17,6 +17,10 @@ Browse through transaction history.
 
 Tap on any transaction card to view details and initiate refunds.
 
+Link to demo:
+Demo Video (GIF):  https://drive.google.com/drive/folders/12xyyoGxfasXFOMhpeR_JYOaERwc8JH8i?usp=sharing
+ 
+
 ## 🖼️ Features
 
 * ✅ Modern UI Design — clean, minimal, and responsive layout.
