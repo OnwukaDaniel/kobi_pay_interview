@@ -19,7 +19,6 @@ Tap on any transaction card to view details and initiate refunds.
 
 Link to demo:
 Demo Video (GIF):  https://drive.google.com/drive/folders/12xyyoGxfasXFOMhpeR_JYOaERwc8JH8i?usp=sharing
- 
 
 ## 🖼️ Features
 
@@ -31,7 +30,14 @@ Demo Video (GIF):  https://drive.google.com/drive/folders/12xyyoGxfasXFOMhpeR_JY
 * ✅ PDF Export — users can export transaction summaries as a PDF.
 * ✅ Monthly Filter — quickly switch between months using the dropdown filter.
 
-## Libraries used:
+## 🛠️ API Overview
+
+The app uses mock data randomly generated from `mockapi.io` and fetched via network for demonstration purposes, simulating API responses for transaction history and details. In a production scenario, this would be replaced with real API calls to a backend service.
+
+## 🚀 Preferred State Management: 
+### - `Riverpod`
+
+## 📚 Libraries used:
 
 * `fl_chart` // For custom pie chart visualization
 * `shared_preferences` // For local data storage
@@ -42,7 +48,7 @@ Demo Video (GIF):  https://drive.google.com/drive/folders/12xyyoGxfasXFOMhpeR_JY
 * `pdf` // For PDF generation
 * `printing` // For printing and PDF preview
 
-## Folder Structure
+## 📂 Folder Structure
 
 ```
 kobi_pay_interview/
