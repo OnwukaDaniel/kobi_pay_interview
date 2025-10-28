@@ -1,4 +1,3 @@
-import 'package:kobi_pay_interview/domain/extensions/string_extension.dart';
 import 'package:kobi_pay_interview/imports.dart';
 
 class TransactionDetailsPage extends StatefulWidget {

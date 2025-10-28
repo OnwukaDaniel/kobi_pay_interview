@@ -1,6 +1,5 @@
 import 'package:kobi_pay_interview/imports.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 
 class TransactionSummary extends HookConsumerWidget {
   const TransactionSummary({super.key});
@@ -13,7 +12,7 @@ class TransactionSummary extends HookConsumerWidget {
       backgroundColor: AppColor.surface,
       appBar: AppBar(
         backgroundColor: AppColor.surface,
-        leading: AppBackArrow(),
+        leading: AppBackArrow(onPressed: () => confirmExitAPp(context)),
         actions: [actionButton(state, ref), 24.w],
         title: Text(
           Strings.history,
@@ -67,6 +66,9 @@ class TransactionSummary extends HookConsumerWidget {
         onSelected: (value) {
           if (value == 'export_pdf') {
             exportTransactionsAsPdf(ref);
+          } else if (value == 'reload') {
+            ref.read(transactionViewmodelProvider.notifier).fetchTransactions();
+            ref.read(walletTransactionViewmodelProvider.notifier).fetchWalletTransactions();
           }
         },
         itemBuilder:
@@ -85,6 +87,12 @@ class TransactionSummary extends HookConsumerWidget {
                   ],
                 ),
               ),
+              PopupMenuItem(
+                value: 'reload',
+                child: Row(
+                  children: [Icon(Icons.refresh), 12.w, Text('Reload')],
+                ),
+              ),
             ],
       );
     }
@@ -98,6 +106,29 @@ class TransactionSummary extends HookConsumerWidget {
     return SizedBox.shrink();
   }
 
+  confirmExitAPp(BuildContext context) async {
+    final shouldExit = await showDialog<bool>(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: Text('Exit app'),
+            content: Text('Are you sure you want to exit the application?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                style: TextButton.styleFrom(backgroundColor: Colors.red),
+                child: Text('Exit', style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          ),
+    );
+    if (shouldExit == true) SystemNavigator.pop();
+  }
+
   Future<void> exportTransactionsAsPdf(WidgetRef ref) async {
     final pdf = pw.Document();
     final state = ref.watch(transactionViewmodelProvider);
@@ -105,7 +136,7 @@ class TransactionSummary extends HookConsumerWidget {
     pdf.addPage(
       pw.Page(
         build:
-            (context) => pw.Table.fromTextArray(
+            (context) => pw.TableHelper.fromTextArray(
               headers: [
                 'Date',
                 'Title',

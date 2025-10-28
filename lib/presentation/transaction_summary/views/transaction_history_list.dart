@@ -23,15 +23,7 @@ class TransactionHistoryList extends HookConsumerWidget
             final trx = transactions[index];
             return InkWell(
               splashColor: Colors.transparent,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder:
-                        (context) => TransactionDetailsPage(transaction: trx),
-                  ),
-                );
-              },
+              onTap: () => goToNextScreen(context, trx),
               child: Container(
                 padding: const EdgeInsets.all(16),
                 clipBehavior: Clip.hardEdge,
@@ -140,6 +132,19 @@ class TransactionHistoryList extends HookConsumerWidget
           ),
         ),
       ),
+    );
+  }
+
+  goToNextScreen(BuildContext context, Transaction trx) {
+    Navigator.push(
+      context,
+      Theme.of(context).platform == TargetPlatform.iOS
+          ? CupertinoPageRoute(
+            builder: (context) => TransactionDetailsPage(transaction: trx),
+          )
+          : MaterialPageRoute(
+            builder: (context) => TransactionDetailsPage(transaction: trx),
+          ),
     );
   }
 }
