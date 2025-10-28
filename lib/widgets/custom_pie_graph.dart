@@ -5,7 +5,6 @@ class CustomPieGraph extends StatefulWidget {
   final List<PieChartSectionData> sectionList;
   final Function(int) index;
   final double smallRadius;
-  final String title;
 
   const CustomPieGraph({
     super.key,
@@ -13,7 +12,6 @@ class CustomPieGraph extends StatefulWidget {
     required this.sectionList,
     required this.index,
     this.centerSpaceRadius = 0.0,
-    this.title = '',
   });
 
   @override
@@ -30,46 +28,33 @@ class _CustomPieGraphState extends State<CustomPieGraph> {
     var size = MediaQuery.of(context).size;
     radius = size.width * .7;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            widget.title,
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+    return AspectRatio(
+      aspectRatio: 1.9,
+      child: PieChart(
+        PieChartData(
+          pieTouchData: PieTouchData(
+            touchCallback: (FlTouchEvent event, pieTouchResponse) {
+              setState(() {
+                if (!event.isInterestedForInteractions ||
+                    pieTouchResponse == null ||
+                    pieTouchResponse.touchedSection == null) {
+                  touchedIndex = -1;
+                  widget.index(touchedIndex);
+                  return;
+                }
+                touchedIndex =
+                    pieTouchResponse.touchedSection!.touchedSectionIndex;
+                widget.index(touchedIndex);
+              });
+            },
           ),
+          centerSpaceRadius: widget.centerSpaceRadius,
+          startDegreeOffset: 180,
+          borderData: FlBorderData(show: false),
+          sectionsSpace: 1,
+          sections: widget.sectionList,
         ),
-        SizedBox(height: 12),
-        AspectRatio(
-          aspectRatio: 1.23,
-          child: PieChart(
-            PieChartData(
-              pieTouchData: PieTouchData(
-                touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                  setState(() {
-                    if (!event.isInterestedForInteractions ||
-                        pieTouchResponse == null ||
-                        pieTouchResponse.touchedSection == null) {
-                      touchedIndex = -1;
-                      widget.index(touchedIndex);
-                      return;
-                    }
-                    touchedIndex =
-                        pieTouchResponse.touchedSection!.touchedSectionIndex;
-                    widget.index(touchedIndex);
-                  });
-                },
-              ),
-              centerSpaceRadius: widget.centerSpaceRadius,
-              startDegreeOffset: 180,
-              borderData: FlBorderData(show: false),
-              sectionsSpace: 1,
-              sections: widget.sectionList,
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

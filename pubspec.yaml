@@ -8,6 +8,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  vector_math: 2.1.2
   cupertino_icons: ^1.0.8
   fl_chart: ^1.1.0
   toastification: ^3.0.3
@@ -16,6 +17,11 @@ dependencies:
   hooks_riverpod: ^3.0.3
   shimmer: ^3.0.0
   dio: ^5.9.0
+  pdf: ^3.11.3
+  printing: ^5.14.2
+
+dependency_overrides:
+  vector_math: 2.2.0
 
 dev_dependencies:
   flutter_test:

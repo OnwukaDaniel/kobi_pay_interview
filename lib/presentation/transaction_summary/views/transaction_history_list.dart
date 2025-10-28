@@ -41,10 +41,22 @@ class TransactionHistoryList extends HookConsumerWidget
                   ),
                   child: Row(
                     children: [
-                      ClipRRect(
-                        clipBehavior: Clip.hardEdge,
-                        borderRadius: BorderRadius.circular(360),
-                        child: Image.network(trx.icon, width: 55, height: 55),
+                      Wrap(
+                        children: [
+                          SizedBox(
+                            width: 55,
+                            height: 55,
+                            child: ClipRRect(
+                              clipBehavior: Clip.hardEdge,
+                              borderRadius: BorderRadius.circular(360),
+                              child: Image.network(
+                                trx.icon,
+                                width: 55,
+                                height: 55,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       16.w,
                       Expanded(
@@ -65,7 +77,10 @@ class TransactionHistoryList extends HookConsumerWidget
                       16.w,
                       Text(
                         '-${trx.amount}',
-                        style: TextStyle(color: AppColor.accent, fontWeight: FontWeight.w800),
+                        style: TextStyle(
+                          color: AppColor.accent,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                     ],
                   ),

@@ -1,4 +1,6 @@
 import 'package:kobi_pay_interview/imports.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 class TransactionSummary extends HookConsumerWidget {
   const TransactionSummary({super.key});
@@ -13,7 +15,7 @@ class TransactionSummary extends HookConsumerWidget {
         backgroundColor: AppColor.surface,
         leading: AppBackArrow(),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+          actionButton(state, ref),
           24.w,
         ],
         title: Text(
@@ -58,6 +60,72 @@ class TransactionSummary extends HookConsumerWidget {
           TransactionHistoryList(),
         ],
       ),
+    );
+  }
+
+  Widget actionButton(NetworkState<List<Transaction>> state, WidgetRef ref) {
+    if (state is NetworkSuccess) {
+      return PopupMenuButton<String>(
+        icon: Icon(Icons.more_vert),
+        onSelected: (value) {
+          if (value == 'export_pdf') {
+            exportTransactionsAsPdf(ref);
+          }
+        },
+        itemBuilder:
+            (context) =>
+        [
+          PopupMenuItem(
+            value: 'export_pdf',
+            child: Text('Export as PDF'),
+          ),
+        ],
+      );
+    }
+    if (state is NetworkLoading) {
+      return SizedBox(width: 20, height: 20, child: CircularProgressIndicator());
+    }
+    return SizedBox.shrink();
+  }
+
+  Future<void> exportTransactionsAsPdf(WidgetRef ref) async {
+    final pdf = pw.Document();
+    final state = ref.watch(transactionViewmodelProvider);
+    final transactions = (state as NetworkSuccess<List<Transaction>>).data;
+    pdf.addPage(
+      pw.Page(
+        build:
+            (context) =>
+            pw.Table.fromTextArray(
+              headers: [
+                'Date',
+                'Title',
+                'Amount',
+                'Merchant',
+                'Method',
+                'Status',
+              ],
+              data:
+              transactions
+                  .map(
+                    (t) =>
+                [
+                  t.createdAt,
+                  t.title,
+                  t.amount,
+                  t.merchantName,
+                  t.method,
+                  t.status ? 'Success' : 'Failed',
+                ],
+              )
+                  .toList(),
+            ),
+      ),
+    );
+
+    await Printing.sharePdf(
+      bytes: await pdf.save(),
+      filename: 'transactions.pdf',
     );
   }
 }

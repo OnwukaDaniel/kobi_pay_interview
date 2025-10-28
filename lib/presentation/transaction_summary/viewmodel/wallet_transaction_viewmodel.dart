@@ -19,6 +19,21 @@ class WalletTransactionViewmodel
     'Dec',
   ];
 
+  List<Color> monthColors = [
+    Colors.red, // Jan
+    Colors.pink, // Feb
+    Colors.purple, // Mar
+    Colors.deepPurple, // Apr
+    Colors.indigo, // May
+    Colors.blue, // Jun
+    Colors.lightBlue, // Jul
+    Colors.cyan, // Aug
+    Colors.teal, // Sep
+    Colors.green, // Oct
+    Colors.lightGreen, // Nov
+    Colors.lime, // Dec
+  ];
+
   WalletTransactionViewmodel() : super(NetworkLoading()) {
     fetchWalletTransactions();
   }
@@ -39,10 +54,11 @@ class WalletTransactionViewmodel
     };
   }
 
-  BalanceCard getMonthlyBalance(String month, {bool notifySuccess = false}) {
+  BalanceCard getMonthlyBalance(String month, {bool notifySuccess = true}) {
     if (allBalance.isEmpty) {
       return BalanceCard(total: 0.0, month: month, items: []);
     }
+    final chartList = getMonths();
     final monthBal =
         allBalance.where((e) {
           return DateFormat('MMM').format(DateTime.parse(e.time)) == month;
@@ -51,12 +67,39 @@ class WalletTransactionViewmodel
       0.0,
       (a, b) => a + (double.tryParse(b.amount) ?? 0),
     );
-    if (notifySuccess) {
-      state = NetworkSuccess(
-        BalanceCard(total: total, month: month, items: monthBal),
+    final card = BalanceCard(total: total, month: month, items: chartList);
+    if (notifySuccess) state = NetworkSuccess(card);
+    return card;
+  }
+
+  List<PieChartSectionData> getMonths() {
+    final results = <PieChartSectionData>[];
+    for (final m in month) {
+      final monthItems =
+          allBalance
+              .where(
+                (t) => DateFormat('MMM').format(DateTime.parse(t.time)) == m,
+              )
+              .toList();
+      final total = monthItems.fold<double>(
+        0.0,
+        (sum, t) => sum + (double.tryParse(t.amount) ?? 0.0),
+      );
+      results.add(
+        PieChartSectionData(
+          value: total,
+          title: m,
+          color: monthColors[month.indexOf(m) % monthColors.length],
+          radius: 40,
+          showTitle: false,
+          titleStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       );
     }
-    return BalanceCard(total: total, month: month, items: monthBal);
+    return results;
   }
 }
 
