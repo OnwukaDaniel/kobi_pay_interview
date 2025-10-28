@@ -31,6 +31,17 @@ Demo Video (GIF):  https://drive.google.com/drive/folders/12xyyoGxfasXFOMhpeR_JY
 * ✅ PDF Export — users can export transaction summaries as a PDF.
 * ✅ Monthly Filter — quickly switch between months using the dropdown filter.
 
+## Libraries used:
+
+* `fl_chart` // For custom pie chart visualization
+* `shared_preferences` // For local data storage
+* `intl` // For date and number formatting
+* `hooks_riverpod` // For state management
+* `shimmer` // For loading animations
+* `dio` // For network requests
+* `pdf` // For PDF generation
+* `printing` // For printing and PDF preview
+
 ## Folder Structure
 
 ```
