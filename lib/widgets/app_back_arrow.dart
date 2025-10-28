@@ -12,6 +12,7 @@ class AppBackArrow extends StatelessWidget {
         Theme.of(context).platform == TargetPlatform.iOS
             ? Icons.arrow_back_ios
             : Icons.arrow_back,
+        color: Theme.of(context).iconTheme.color,
       ),
       onPressed:
           onPressed != null

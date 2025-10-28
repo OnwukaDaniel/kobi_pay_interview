@@ -1,7 +1,7 @@
 import 'imports.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
         title: Strings.appName,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          fontFamily: 'open_sans',
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
         home: TransactionSummary(),

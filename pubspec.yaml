@@ -26,3 +26,16 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+
+  fonts:
+    - family: open_sans
+      fonts:
+        - asset: fonts/open_sans/OpenSans-ExtraBold.ttf
+        - asset: fonts/open_sans/OpenSans-SemiBold.ttf
+        - asset: fonts/open_sans/OpenSans-Bold.ttf
+        - asset: fonts/open_sans/OpenSans-Regular.ttf
+        - asset: fonts/open_sans/OpenSans-Medium.ttf
+        - asset: fonts/open_sans/OpenSans-Light.ttf
+    - family: special_gothic
+      fonts:
+        - asset: fonts/special_gothic/SpecialGothicExpandedOne-Regular.ttf
