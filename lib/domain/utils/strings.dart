@@ -6,6 +6,7 @@ mixin Strings {
   static String transaction = 'Transaction';
   static String totalPayment = 'Total Payment';
   static String netflixExpress = 'Netflix Express';
+  static String transactionDetails = 'Transaction Details';
 
 
   /// FONTS

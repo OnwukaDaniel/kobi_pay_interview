@@ -14,10 +14,7 @@ class TransactionSummary extends HookConsumerWidget {
       appBar: AppBar(
         backgroundColor: AppColor.surface,
         leading: AppBackArrow(),
-        actions: [
-          actionButton(state, ref),
-          24.w,
-        ],
+        actions: [actionButton(state, ref), 24.w],
         title: Text(
           Strings.history,
           style: TextStyle(fontWeight: FontWeight.w700),
@@ -73,17 +70,30 @@ class TransactionSummary extends HookConsumerWidget {
           }
         },
         itemBuilder:
-            (context) =>
-        [
-          PopupMenuItem(
-            value: 'export_pdf',
-            child: Text('Export as PDF'),
-          ),
-        ],
+            (context) => [
+              PopupMenuItem(
+                value: 'export_pdf',
+                child: Row(
+                  children: [
+                    Icon(
+                      Theme.of(context).platform == TargetPlatform.iOS
+                          ? Icons.ios_share
+                          : Icons.share,
+                    ),
+                    12.w,
+                    Text('Export as PDF'),
+                  ],
+                ),
+              ),
+            ],
       );
     }
     if (state is NetworkLoading) {
-      return SizedBox(width: 20, height: 20, child: CircularProgressIndicator());
+      return SizedBox(
+        width: 20,
+        height: 20,
+        child: CircularProgressIndicator(),
+      );
     }
     return SizedBox.shrink();
   }
@@ -95,8 +105,7 @@ class TransactionSummary extends HookConsumerWidget {
     pdf.addPage(
       pw.Page(
         build:
-            (context) =>
-            pw.Table.fromTextArray(
+            (context) => pw.Table.fromTextArray(
               headers: [
                 'Date',
                 'Title',
@@ -106,19 +115,18 @@ class TransactionSummary extends HookConsumerWidget {
                 'Status',
               ],
               data:
-              transactions
-                  .map(
-                    (t) =>
-                [
-                  t.createdAt,
-                  t.title,
-                  t.amount,
-                  t.merchantName,
-                  t.method,
-                  t.status ? 'Success' : 'Failed',
-                ],
-              )
-                  .toList(),
+                  transactions
+                      .map(
+                        (t) => [
+                          t.createdAt,
+                          t.title,
+                          t.amount,
+                          t.merchantName,
+                          t.method,
+                          t.status ? 'Success' : 'Failed',
+                        ],
+                      )
+                      .toList(),
             ),
       ),
     );

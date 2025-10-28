@@ -21,69 +21,75 @@ class TransactionHistoryList extends HookConsumerWidget
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             final trx = transactions[index];
-            return Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: AppColor.surface,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withAlpha(15),
-                        blurRadius: 10,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
+            return InkWell(
+              splashColor: Colors.transparent,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => TransactionDetailsPage(transaction: trx),
                   ),
-                  child: Row(
-                    children: [
-                      Wrap(
-                        children: [
-                          SizedBox(
-                            width: 55,
-                            height: 55,
-                            child: ClipRRect(
-                              clipBehavior: Clip.hardEdge,
-                              borderRadius: BorderRadius.circular(360),
-                              child: Image.network(
-                                trx.icon,
-                                width: 55,
-                                height: 55,
-                              ),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: AppColor.surface,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withAlpha(15),
+                      blurRadius: 10,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Wrap(
+                      children: [
+                        SizedBox(
+                          width: 55,
+                          height: 55,
+                          child: ClipRRect(
+                            clipBehavior: Clip.hardEdge,
+                            borderRadius: BorderRadius.circular(360),
+                            child: Image.network(
+                              trx.icon,
+                              width: 55,
+                              height: 55,
                             ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    16.w,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            trx.title,
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          Text(
+                            humanReadableDateTime(trx.createdAt),
+                            style: TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
-                      16.w,
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              trx.title,
-                              style: TextStyle(fontWeight: FontWeight.w700),
-                            ),
-                            Text(
-                              humanReadableDateTime(trx.createdAt),
-                              style: TextStyle(fontSize: 12),
-                            ),
-                          ],
-                        ),
+                    ),
+                    16.w,
+                    Text(
+                      '-${trx.amount}',
+                      style: TextStyle(
+                        color: AppColor.accent,
+                        fontWeight: FontWeight.w800,
                       ),
-                      16.w,
-                      Text(
-                        '-${trx.amount}',
-                        style: TextStyle(
-                          color: AppColor.accent,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );
